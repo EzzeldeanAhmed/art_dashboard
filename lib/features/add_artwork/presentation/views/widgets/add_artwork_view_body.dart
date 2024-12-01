@@ -1,6 +1,12 @@
+import 'dart:io';
+
+import 'package:dashboard/core/widgets/custom_button.dart';
 import 'package:dashboard/core/widgets/custom_text_field.dart';
+import 'package:dashboard/features/add_artwork/presentation/views/domain/entities/add_artwork_input_entity.dart';
+import 'package:dashboard/features/add_artwork/presentation/views/manger/add_artwork/cubit/add_artwork_cubit.dart';
 import 'package:dashboard/features/add_artwork/presentation/views/widgets/image_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddArtworkViewBody extends StatefulWidget {
   const AddArtworkViewBody({super.key});
@@ -12,6 +18,9 @@ class AddArtworkViewBody extends StatefulWidget {
 class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+  late String code, name, type, medium, country, description, epoch, artist;
+  late num year, dimensions;
+  File? image;
 
   @override
   Widget build(BuildContext context) {
@@ -24,45 +33,124 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
           child: Column(
             children: [
               CustomTextFormField(
-                  hintText: 'Artwork Code', textInputType: TextInputType.text),
+                  onSaved: (value) {
+                    code = value!.toLowerCase();
+                  },
+                  hintText: 'Artwork Code',
+                  textInputType: TextInputType.text),
               const SizedBox(height: 8),
               CustomTextFormField(
-                  hintText: 'Artwork Name', textInputType: TextInputType.text),
+                  onSaved: (value) {
+                    name = value!;
+                  },
+                  hintText: 'Artwork Name',
+                  textInputType: TextInputType.text),
               const SizedBox(height: 8),
               CustomTextFormField(
-                  hintText: 'Artwork Type', textInputType: TextInputType.text),
+                  onSaved: (value) {
+                    type = value!;
+                  },
+                  hintText: 'Artwork Type',
+                  textInputType: TextInputType.text),
               const SizedBox(height: 8),
               CustomTextFormField(
-                  hintText: 'Year Made', textInputType: TextInputType.number),
+                  onSaved: (value) {
+                    year = num.parse(value!);
+                  },
+                  hintText: 'Year Made',
+                  textInputType: TextInputType.number),
               const SizedBox(height: 8),
               CustomTextFormField(
-                  hintText: 'Epoch', textInputType: TextInputType.text),
+                  onSaved: (value) {
+                    epoch = value!;
+                  },
+                  hintText: 'Epoch',
+                  textInputType: TextInputType.text),
               const SizedBox(height: 8),
               CustomTextFormField(
-                  hintText: 'Dimensions', textInputType: TextInputType.text),
+                  onSaved: (value) {
+                    dimensions = num.parse(value!);
+                  },
+                  hintText: 'Dimensions',
+                  textInputType: TextInputType.number),
               const SizedBox(height: 8),
               CustomTextFormField(
-                  hintText: 'Medium', textInputType: TextInputType.text),
+                  onSaved: (value) {
+                    medium = value!;
+                  },
+                  hintText: 'Medium',
+                  textInputType: TextInputType.text),
               const SizedBox(height: 8),
               CustomTextFormField(
-                  hintText: 'Artist', textInputType: TextInputType.text),
+                  onSaved: (value) {
+                    artist = value!;
+                  },
+                  hintText: 'Artist',
+                  textInputType: TextInputType.text),
               const SizedBox(height: 8),
               CustomTextFormField(
-                  hintText: 'Country ', textInputType: TextInputType.text),
+                  onSaved: (value) {
+                    country = value!;
+                  },
+                  hintText: 'Country ',
+                  textInputType: TextInputType.text),
               const SizedBox(height: 8),
               CustomTextFormField(
+                onSaved: (value) {
+                  description = value!;
+                },
                 hintText: 'Artwork Description',
                 textInputType: TextInputType.text,
                 maxLines: 5,
               ),
               const SizedBox(height: 12),
               ImageField(
-                onFileChanged: (image) {},
+                onFileChanged: (image) {
+                  this.image = image;
+                },
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 24),
+              CustomButton(
+                onPressed: () {
+                  if (image != null) {
+                    if (_formkey.currentState!.validate()) {
+                      _formkey.currentState!.save();
+                      AddArtworkInputEntity input = AddArtworkInputEntity(
+                        code: code,
+                        name: name,
+                        type: type,
+                        medium: medium,
+                        country: country,
+                        description: description,
+                        epoch: epoch,
+                        artist: artist,
+                        year: year,
+                        dimensions: dimensions,
+                        image: image!,
+                      );
+                      context.read<AddArtworkCubit>().addArtwork(input);
+                    } else {
+                      autovalidateMode = AutovalidateMode.always;
+                      setState(() {});
+                    }
+                  } else {
+                    showError(context);
+                  }
+                },
+                text: 'Add Artwork',
+              ),
+              const SizedBox(height: 24),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void showError(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Please select an image'),
       ),
     );
   }
