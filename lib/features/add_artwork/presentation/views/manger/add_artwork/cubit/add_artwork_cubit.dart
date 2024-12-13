@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dashboard/core/repos/artwork_repo/artworks_repo.dart';
 import 'package:dashboard/core/repos/images_repo/images_repo.dart';
-import 'package:dashboard/features/add_artwork/presentation/views/domain/entities/add_artwork_input_entity.dart';
+import 'package:dashboard/features/add_artwork/presentation/views/domain/entities/artwork_entity.dart';
 import 'package:flutter/rendering.dart';
 
 import 'package:meta/meta.dart';
@@ -15,7 +15,7 @@ class AddArtworkCubit extends Cubit<AddArtworkState> {
 
   final ImagesRepo imagesRepo;
   final ArtworksRepo artworksRepo;
-  Future<void> addArtwork(AddArtworkInputEntity addArtworkInputEntity) async {
+  Future<void> addArtwork(ArtworkEntity addArtworkInputEntity) async {
     emit(AddArtworkLoading());
     var result = await imagesRepo.UploadImage(addArtworkInputEntity.image);
     result.fold(

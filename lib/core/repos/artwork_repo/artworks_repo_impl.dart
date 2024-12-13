@@ -4,8 +4,8 @@ import 'package:dashboard/core/repos/artwork_repo/artworks_repo.dart';
 import 'package:dashboard/core/services/data_service.dart';
 import 'package:dashboard/core/services/storage_service.dart';
 import 'package:dashboard/core/utils/backend_endpoint.dart';
-import 'package:dashboard/features/add_artwork/data/models/add_artwork_input_model.dart';
-import 'package:dashboard/features/add_artwork/presentation/views/domain/entities/add_artwork_input_entity.dart';
+import 'package:dashboard/features/add_artwork/data/models/artwork_model.dart';
+import 'package:dashboard/features/add_artwork/presentation/views/domain/entities/artwork_entity.dart';
 
 class ArtworksRepoImpl implements ArtworksRepo {
   final DatabaseService databaseService;
@@ -14,11 +14,11 @@ class ArtworksRepoImpl implements ArtworksRepo {
 
   @override
   Future<Either<Failure, void>> addArtwork(
-      AddArtworkInputEntity addArtworkInputEntity) async {
+      ArtworkEntity addArtworkInputEntity) async {
     try {
       await databaseService.addData(
         path: BackendEndpoint.artworksCollection,
-        data: AddArtworkInputModel.fromEntity(addArtworkInputEntity).toJson(),
+        data: ArtworkModel.fromEntity(addArtworkInputEntity).toJson(),
       );
       return const Right(null);
     } catch (e) {

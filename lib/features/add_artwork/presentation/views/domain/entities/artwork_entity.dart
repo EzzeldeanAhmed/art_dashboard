@@ -4,7 +4,9 @@
 
 import 'dart:io';
 
-class AddArtworkInputEntity {
+import 'package:dashboard/features/add_artwork/presentation/views/domain/entities/review_entity.dart';
+
+class ArtworkEntity {
   final String code;
   final String name;
   final String type;
@@ -13,12 +15,13 @@ class AddArtworkInputEntity {
   final String description;
   final String epoch;
   final String artist;
+  final String dimensions;
   final num year;
-  final num dimensions;
   final File image;
   String? imageUrl;
+  final List<ReviewEntity> reviews;
 
-  AddArtworkInputEntity(
+  ArtworkEntity(
       {required this.code,
       required this.name,
       required this.type,
@@ -27,6 +30,7 @@ class AddArtworkInputEntity {
       required this.description,
       required this.epoch,
       required this.artist,
+      required this.reviews,
       required this.year,
       required this.dimensions,
       required this.image,

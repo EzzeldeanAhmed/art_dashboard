@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dashboard/core/widgets/custom_button.dart';
 import 'package:dashboard/core/widgets/custom_text_field.dart';
-import 'package:dashboard/features/add_artwork/presentation/views/domain/entities/add_artwork_input_entity.dart';
+import 'package:dashboard/features/add_artwork/presentation/views/domain/entities/artwork_entity.dart';
 import 'package:dashboard/features/add_artwork/presentation/views/manger/add_artwork/cubit/add_artwork_cubit.dart';
 import 'package:dashboard/features/add_artwork/presentation/views/widgets/image_field.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +18,16 @@ class AddArtworkViewBody extends StatefulWidget {
 class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
-  late String code, name, type, medium, country, description, epoch, artist;
-  late num year, dimensions;
+  late String code,
+      name,
+      type,
+      medium,
+      country,
+      description,
+      epoch,
+      artist,
+      dimensions;
+  late num year;
   File? image;
 
   @override
@@ -69,10 +77,10 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
               const SizedBox(height: 8),
               CustomTextFormField(
                   onSaved: (value) {
-                    dimensions = num.parse(value!);
+                    dimensions = value!;
                   },
                   hintText: 'Dimensions',
-                  textInputType: TextInputType.number),
+                  textInputType: TextInputType.text),
               const SizedBox(height: 8),
               CustomTextFormField(
                   onSaved: (value) {
@@ -115,7 +123,8 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                   if (image != null) {
                     if (_formkey.currentState!.validate()) {
                       _formkey.currentState!.save();
-                      AddArtworkInputEntity input = AddArtworkInputEntity(
+                      ArtworkEntity input = ArtworkEntity(
+                        reviews: [],
                         code: code,
                         name: name,
                         type: type,
