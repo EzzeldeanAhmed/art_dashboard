@@ -1,6 +1,6 @@
 name: dashboard
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
@@ -21,6 +21,7 @@ dependencies:
   flutter_bloc: ^8.1.6
   modal_progress_hud_nsn: ^0.5.1
   supabase_flutter: ^2.8.1
+  dropdown_button2: ^2.3.9
 
 dev_dependencies:
   flutter_test:

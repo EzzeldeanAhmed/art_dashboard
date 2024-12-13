@@ -5,6 +5,7 @@ import 'package:dashboard/core/widgets/custom_text_field.dart';
 import 'package:dashboard/features/add_artwork/presentation/views/domain/entities/artwork_entity.dart';
 import 'package:dashboard/features/add_artwork/presentation/views/manger/add_artwork/cubit/add_artwork_cubit.dart';
 import 'package:dashboard/features/add_artwork/presentation/views/widgets/image_field.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,6 +15,15 @@ class AddArtworkViewBody extends StatefulWidget {
   @override
   State<AddArtworkViewBody> createState() => _AddArtworkViewBodyState();
 }
+
+List<String> typeItems = [
+  'Sculpture',
+  'Drawings',
+  'Paintings',
+  'Black and White',
+  'Mosaic'
+];
+String? selectedValue;
 
 class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
@@ -54,12 +64,63 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                   hintText: 'Artwork Name',
                   textInputType: TextInputType.text),
               const SizedBox(height: 8),
-              CustomTextFormField(
-                  onSaved: (value) {
+
+              DropdownButtonFormField2<String>(
+                //isExpanded: true,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.zero,
+                  hoverColor: Colors.blue,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(0),
+                  ),
+                ),
+                hint: const Text(
+                  'Select Type of Artwork',
+                  style: TextStyle(fontSize: 16),
+                ),
+                items: typeItems
+                    .map((item) => DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: const TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                        ))
+                    .toList(),
+                validator: (value) {
+                  if (value == null) {
+                    return 'Please select a type.';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  setState(() {
                     type = value!;
-                  },
-                  hintText: 'Artwork Type',
-                  textInputType: TextInputType.text),
+                  });
+                },
+                onSaved: (value) {},
+                buttonStyleData: const ButtonStyleData(
+                  padding: EdgeInsets.only(right: 8),
+                ),
+                iconStyleData: const IconStyleData(
+                  icon: Icon(
+                    Icons.arrow_drop_down,
+                    color: Colors.green,
+                  ),
+                  iconSize: 24,
+                ),
+                dropdownStyleData: DropdownStyleData(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.white,
+                  ),
+                ),
+                menuItemStyleData: const MenuItemStyleData(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                ),
+              ),
               const SizedBox(height: 8),
               CustomTextFormField(
                   onSaved: (value) {
@@ -112,6 +173,8 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                 maxLines: 5,
               ),
               const SizedBox(height: 12),
+//
+
               ImageField(
                 onFileChanged: (image) {
                   this.image = image;
@@ -164,3 +227,10 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
     );
   }
 }
+/*CustomTextFormField(
+                  onSaved: (value) {
+                    type = value!;
+                  },
+                  hintText: 'Artwork Type',
+                  textInputType: TextInputType.text,
+                  ),*/
