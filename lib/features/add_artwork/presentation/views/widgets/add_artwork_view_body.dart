@@ -50,6 +50,11 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
           autovalidateMode: autovalidateMode,
           child: Column(
             children: [
+              const SizedBox(height: 20),
+              const Text('Welcome Admin, Fill the data to add artwork',
+                  style: TextStyle(fontSize: 18, color: Colors.black)),
+              const SizedBox(height: 20),
+
               CustomTextFormField(
                   onSaved: (value) {
                     code = value!.toLowerCase();
@@ -68,15 +73,19 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
               DropdownButtonFormField2<String>(
                 //isExpanded: true,
                 decoration: InputDecoration(
+                  filled: true,
+                  fillColor: const Color(0xFFF9FAFA),
                   contentPadding: EdgeInsets.zero,
-                  hoverColor: Colors.blue,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(0),
                   ),
                 ),
                 hint: const Text(
                   'Select Type of Artwork',
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0XFF949D9E),
+                  ),
                 ),
                 items: typeItems
                     .map((item) => DropdownMenuItem<String>(
@@ -107,9 +116,9 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                 iconStyleData: const IconStyleData(
                   icon: Icon(
                     Icons.arrow_drop_down,
-                    color: Colors.green,
+                    color: Colors.blue,
                   ),
-                  iconSize: 24,
+                  iconSize: 30,
                 ),
                 dropdownStyleData: DropdownStyleData(
                   decoration: BoxDecoration(

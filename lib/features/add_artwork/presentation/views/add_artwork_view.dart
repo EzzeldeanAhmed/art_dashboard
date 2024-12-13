@@ -15,8 +15,10 @@ class AddArtworkView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.green[50],
       appBar: AppBar(
-        title: const Text('Add Artwork'),
+        title: const Text('ARTSHUB'),
+        backgroundColor: Colors.amber[200],
       ),
       body: BlocProvider(
           create: (context) => AddArtworkCubit(
